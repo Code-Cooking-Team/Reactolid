@@ -7,8 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^7.5.0",
+    "@react-three/fiber": "^7.0.6",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "three": "^0.131.3",
+    "zustand": "^3.5.9"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
