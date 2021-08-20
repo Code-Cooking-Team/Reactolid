@@ -3,15 +3,20 @@ import React from 'react'
 
 interface BoxProps {
     position: Triplet
+    stationary?: boolean
 }
 
-export const Box = ({ position }: BoxProps) => {
-    const [ref] = useBox(() => ({ mass: 1, position }))
+export const Box = ({ position, stationary }: BoxProps) => {
+    const [ref] = useBox(() => ({
+        type: stationary ? 'Static' : 'Dynamic',
+        mass: 1,
+        position,
+    }))
 
     return (
         <mesh ref={ref} position={position}>
             <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color="orange" />
+            <meshStandardMaterial color={stationary ? 'gray' : 'orange'} />
         </mesh>
     )
 }

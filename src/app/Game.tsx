@@ -24,6 +24,8 @@ export const Game = () => {
                 <Box position={[-1.2, 1, 0]} />
                 <Box position={[1.2, 1, 0]} />
 
+                <Box position={[2, 0, 4]} stationary />
+
                 <Player position={[0, 1, 2]} />
 
                 <GroundPlane position={[0, -1, 0]} />
