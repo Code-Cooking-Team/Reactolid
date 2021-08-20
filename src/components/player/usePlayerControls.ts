@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
 import { useKeyPress } from '../../hooks/useKeypress'
+import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
 const CAMERA_SMOOTHNESS = 15
 const MOVEMENT_SPEED = 10
@@ -15,12 +16,7 @@ export const usePlayerControls = (api: Api[1]) => {
     const dKey = useKeyPress('d')
     const spaceKey = useKeyPress(' ')
 
-    const velocityRef = useRef([0, 0, 0])
-    const positionRef = useRef([0, 0, 0])
-
-    useEffect(() => {
-        api.velocity.subscribe((v) => (velocityRef.current = v))
-    }, [])
+    const velocityRef = useSubscribePhysicValue(api.velocity)
 
     useFrame(() => {
         const direction = new Vector3()

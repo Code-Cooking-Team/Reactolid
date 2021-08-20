@@ -1,4 +1,4 @@
-import { Physics } from '@react-three/cannon'
+import { Debug, Physics } from '@react-three/cannon'
 import { useHelper } from '@react-three/drei'
 import React, { useRef } from 'react'
 import { PointLightHelper } from 'three'
@@ -13,19 +13,21 @@ export const Game = () => {
 
     return (
         <Physics>
-            <pointLight
-                ref={pointLightRef}
-                color="white"
-                position={[4, 4, 0]}
-                intensity={1}
-            />
+            <Debug color="black" scale={1.1}>
+                <pointLight
+                    ref={pointLightRef}
+                    color="white"
+                    position={[4, 4, 0]}
+                    intensity={1}
+                />
 
-            <Box position={[-1.2, 1, 0]} />
-            <Box position={[1.2, 1, 0]} />
+                <Box position={[-1.2, 1, 0]} />
+                <Box position={[1.2, 1, 0]} />
 
-            <Player position={[0, 1, 2]} />
+                <Player position={[0, 1, 2]} />
 
-            <GroundPlane position={[0, -1, 0]} />
+                <GroundPlane position={[0, -1, 0]} />
+            </Debug>
         </Physics>
     )
 }

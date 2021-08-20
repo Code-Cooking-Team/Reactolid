@@ -1,16 +1,12 @@
 import { Api } from '@react-three/cannon'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
+import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
 const CAMERA_SMOOTHNESS = 15
 
 export const usePlayerCamera = (api: Api[1]) => {
-    const positionRef = useRef([0, 0, 0])
-
-    useEffect(() => {
-        api.position.subscribe((v) => (positionRef.current = v))
-    }, [])
+    const positionRef = useSubscribePhysicValue(api.position)
 
     useFrame(({ camera }) => {
         const [posX, posY, posZ] = positionRef.current
