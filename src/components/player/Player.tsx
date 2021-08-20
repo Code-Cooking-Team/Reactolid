@@ -1,5 +1,5 @@
-import { Triplet, useBox, useSphere } from '@react-three/cannon'
-import { useFrame, useThree } from '@react-three/fiber'
+import { Triplet, useSphere } from '@react-three/cannon'
+import { useFrame } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
 import { useKeyPress } from '../../hooks/useKeypress'

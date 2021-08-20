@@ -1,4 +1,4 @@
-import { MapControls, OrbitControls } from '@react-three/drei'
+import { MapControls } from '@react-three/drei'
 import { Canvas as R3FCanvas } from '@react-three/fiber'
 import React, { ReactNode, useRef } from 'react'
 

@@ -7,14 +7,14 @@ import { GroundPlane } from '../components/ground/GroundPlane'
 import { Player } from '../components/player/Player'
 
 export const Game = () => {
-    const pointLight = useRef()
+    const pointLightRef = useRef()
 
-    useHelper(pointLight, PointLightHelper, 0.5, 'hotpink')
+    useHelper(pointLightRef, PointLightHelper, 0.5, 'hotpink')
 
     return (
         <Physics>
             <pointLight
-                ref={pointLight}
+                ref={pointLightRef}
                 color="white"
                 position={[4, 4, 0]}
                 intensity={1}

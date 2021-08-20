@@ -1,6 +1,5 @@
 import { Triplet, useBox } from '@react-three/cannon'
-import { useFrame } from '@react-three/fiber'
-import React, { useRef, useState } from 'react'
+import React from 'react'
 
 interface BoxProps {
     position: Triplet
