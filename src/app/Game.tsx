@@ -3,6 +3,7 @@ import { useHelper } from '@react-three/drei'
 import React, { useRef } from 'react'
 import { PointLightHelper } from 'three'
 import { Box } from '../components/dev/Box'
+import { Ground3DTest } from '../components/ground/Ground3DTest'
 import { GroundPlane } from '../components/ground/GroundPlane'
 import { Player } from '../components/player/Player'
 
@@ -29,6 +30,8 @@ export const Game = () => {
                 <Player position={[0, 1, 2]} />
 
                 <GroundPlane position={[0, -1, 0]} />
+
+                <Ground3DTest />
             </Debug>
         </Physics>
     )
