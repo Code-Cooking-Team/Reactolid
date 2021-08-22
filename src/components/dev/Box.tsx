@@ -11,6 +11,7 @@ export const Box = ({ position, stationary }: BoxProps) => {
         type: stationary ? 'Static' : 'Dynamic',
         mass: 1,
         position,
+        // args: [1, 2, 3],
     }))
 
     return (
