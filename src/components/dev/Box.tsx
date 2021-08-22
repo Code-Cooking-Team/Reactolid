@@ -1,5 +1,6 @@
-import { Triplet, useBox } from '@react-three/cannon'
+import { Triplet } from '@react-three/cannon'
 import React from 'react'
+import { BodyType, ShapeType, useRigidBody } from 'use-ammojs'
 
 interface BoxProps {
     position: Triplet
@@ -7,11 +8,11 @@ interface BoxProps {
 }
 
 export const Box = ({ position, stationary }: BoxProps) => {
-    const [ref] = useBox(() => ({
-        type: stationary ? 'Static' : 'Dynamic',
+    const [ref] = useRigidBody(() => ({
         mass: 1,
         position,
-        // args: [1, 2, 3],
+        bodyType: stationary ? BodyType.STATIC : BodyType.DYNAMIC,
+        shapeType: ShapeType.BOX,
     }))
 
     return (

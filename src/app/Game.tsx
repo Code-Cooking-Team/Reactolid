@@ -1,8 +1,9 @@
-import { Debug, Physics } from '@react-three/cannon'
-import { Stats, useHelper } from '@react-three/drei'
+import { OrbitControls, Stats, useHelper } from '@react-three/drei'
 import React, { useRef } from 'react'
 import { PointLightHelper } from 'three'
+import { Physics } from 'use-ammojs'
 import { Box } from '../components/dev/Box'
+import { Ground3DTest } from '../components/ground/Ground3DTest'
 import { GroundPlane } from '../components/ground/GroundPlane'
 import { Player } from '../components/player/Player'
 
@@ -13,26 +14,28 @@ export const Game = () => {
 
     return (
         <Physics>
-            <Debug color="black" scale={1.1}>
-                <Stats />
-                <pointLight
-                    ref={pointLightRef}
-                    color="white"
-                    position={[4, 4, 0]}
-                    intensity={1}
-                />
+            <Stats />
+            <pointLight
+                ref={pointLightRef}
+                color="white"
+                position={[4, 4, 0]}
+                intensity={1}
+            />
 
-                <Box position={[-1.2, 1, 0]} />
-                <Box position={[1.2, 1, 0]} />
+            <Box position={[-1.2, 1, 0]} />
+            <Box position={[1.2, 1, 0]} />
 
-                <Box position={[2, 0, 4]} stationary />
+            <Box position={[-6, 4, -6]} />
 
-                <Player position={[0, 5, 2]} />
+            <Box position={[2, 0, 4]} stationary />
 
-                <GroundPlane position={[0, -1, 0]} />
+            <Player position={[0, 5, 2]} />
 
-                {/* <Ground3DTest /> */}
-            </Debug>
+            <GroundPlane position={[0, -1, 0]} />
+
+            <OrbitControls />
+
+            <Ground3DTest />
         </Physics>
     )
 }
