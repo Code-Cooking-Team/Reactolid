@@ -1,7 +1,7 @@
 import { OrbitControls, Stats, useHelper } from '@react-three/drei'
 import React, { useRef } from 'react'
 import { PointLightHelper } from 'three'
-import { Physics } from 'use-ammojs'
+import { Physics, PhysicsStats } from 'use-ammojs'
 import { Box } from '../components/dev/Box'
 import { Ground3DTest } from '../components/ground/Ground3DTest'
 import { GroundPlane } from '../components/ground/GroundPlane'
@@ -15,6 +15,7 @@ export const Game = () => {
     return (
         <Physics>
             <Stats />
+            <PhysicsStats top={50} />
             <pointLight
                 ref={pointLightRef}
                 color="white"
@@ -33,7 +34,7 @@ export const Game = () => {
 
             <GroundPlane position={[0, -1, 0]} />
 
-            <OrbitControls />
+            {/* <OrbitControls /> */}
 
             <Ground3DTest />
         </Physics>

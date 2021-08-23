@@ -1,13 +1,10 @@
-import { Api } from '@react-three/cannon'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
 import { RigidbodyApi } from 'use-ammojs'
 import { useKeyPress } from '../../hooks/useKeypress'
-import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
-const MOVEMENT_SPEED = 1
-const JUMP_FORCE = 4
+const MOVEMENT_SPEED = 0.5
+const JUMP_FORCE = 1
 
 export const usePlayerControls = (api: RigidbodyApi) => {
     const wKey = useKeyPress('w')
@@ -15,8 +12,6 @@ export const usePlayerControls = (api: RigidbodyApi) => {
     const aKey = useKeyPress('a')
     const dKey = useKeyPress('d')
     const spaceKey = useKeyPress(' ')
-
-    // const velocityRef = useSubscribePhysicValue(api.velocity)
 
     useFrame(() => {
         const direction = new Vector3()
@@ -29,14 +24,10 @@ export const usePlayerControls = (api: RigidbodyApi) => {
             .normalize()
             .multiplyScalar(MOVEMENT_SPEED)
 
-        // const [velX, velY, velZ] = api. velocityRef.current
-
         api.applyImpulse(direction)
-        // api.velocity.set(direction.x, velY, direction.z)
 
         if (spaceKey) {
             api.applyImpulse(new Vector3(0, JUMP_FORCE, 0))
-            // api.velocity.set(velX, JUMP_FORCE, velZ)
         }
     })
 }

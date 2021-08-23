@@ -1,4 +1,3 @@
-import { useTrimesh } from '@react-three/cannon'
 import { useGLTF } from '@react-three/drei'
 import React from 'react'
 import { BodyType, ShapeType, useRigidBody } from 'use-ammojs'
@@ -13,18 +12,14 @@ export const Ground3DTest = ({}: Ground3DTestProps) => {
 
     const { geometry } = gltf.nodes.Plane
 
-    const [ref] = useRigidBody(
-        () => ({
-            shapeType: ShapeType.MESH,
-            type: BodyType.STATIC,
-        }),
-        // geometry,
-    )
+    const [ref] = useRigidBody(() => ({
+        shapeType: ShapeType.MESH,
+        type: BodyType.STATIC,
+    }))
 
     return (
         <mesh ref={ref} geometry={geometry}>
             <meshStandardMaterial color="darkgreen" />
-            {/* <meshPhysicalMaterial attach="material" color="blue" /> */}
         </mesh>
     )
 }
