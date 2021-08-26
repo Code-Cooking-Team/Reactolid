@@ -12,6 +12,6 @@ export const usePlayerCamera = (api: RigidbodyApi) => {
         camera.position.x += (x - camera.position.x) / CAMERA_SMOOTHNESS
         camera.position.z += (z - camera.position.z + 10) / CAMERA_SMOOTHNESS
 
-        camera.lookAt(new Vector3(x, y, z))
+        camera.lookAt(x, y, z)
     })
 }
