@@ -1,7 +1,8 @@
-import { OrbitControls, Stats, useHelper } from '@react-three/drei'
-import React, { useRef } from 'react'
-import { PointLightHelper } from 'three'
-import { Physics, PhysicsStats } from 'use-ammojs'
+import { Line, Stats, useHelper } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import React, { useRef, useState } from 'react'
+import { PointLightHelper, Vector3 } from 'three'
+import { Physics, PhysicsStats, useAmmo } from 'use-ammojs'
 import { Box } from '../components/dev/Box'
 import { Ground3DTest } from '../components/ground/Ground3DTest'
 import { GroundPlane } from '../components/ground/GroundPlane'
@@ -30,7 +31,7 @@ export const Game = () => {
 
             <Box position={[2, 0, 4]} stationary />
 
-            <Player position={[0, 5, 2]} />
+            <Player position={[15, 7, -5]} />
 
             <GroundPlane position={[0, -1, 0]} />
 

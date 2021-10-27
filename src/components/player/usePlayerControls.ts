@@ -1,10 +1,13 @@
 import { useFrame } from '@react-three/fiber'
 import { Vector3 } from 'three'
-import { RigidbodyApi } from 'use-ammojs'
+import { RigidbodyApi, useAmmo } from 'use-ammojs'
 import { useKeyPress } from '../../hooks/useKeypress'
 
 const MOVEMENT_SPEED = 0.5
-const JUMP_FORCE = 1
+const JUMP_VECTOR = new Vector3(0, 0.5, 0)
+const JUMP_RAY_VECTOR = new Vector3(0, -1, 0)
+
+const ZERO = new Vector3(0, 0, 0)
 
 export const usePlayerControls = (api: RigidbodyApi) => {
     const wKey = useKeyPress('w')
@@ -13,7 +16,9 @@ export const usePlayerControls = (api: RigidbodyApi) => {
     const dKey = useKeyPress('d')
     const spaceKey = useKeyPress(' ')
 
-    useFrame(() => {
+    const { rayTest } = useAmmo()
+
+    useFrame(async () => {
         const direction = new Vector3()
 
         const frontVector = new Vector3(0, 0, Number(sKey) - Number(wKey))
@@ -24,10 +29,18 @@ export const usePlayerControls = (api: RigidbodyApi) => {
             .normalize()
             .multiplyScalar(MOVEMENT_SPEED)
 
-        api.applyImpulse(direction)
+        if (!direction.equals(ZERO)) {
+            api.applyImpulse(direction)
+        }
 
         if (spaceKey) {
-            api.applyImpulse(new Vector3(0, JUMP_FORCE, 0))
+            const from = api.getPosition()
+            const to = api.getPosition().clone().add(JUMP_RAY_VECTOR)
+            const hit = await rayTest({ from, to })
+
+            if (hit.length) {
+                api.applyImpulse(JUMP_VECTOR)
+            }
         }
     })
 }
