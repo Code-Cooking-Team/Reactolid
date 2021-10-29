@@ -6,7 +6,10 @@ interface GroundPlaneProps {
 }
 
 export const GroundPlane = ({ position }: GroundPlaneProps) => {
-    const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], position }))
+    const [ref] = usePlane(() => ({
+        rotation: [-Math.PI / 2, 0, 0],
+        position,
+    }))
 
     return (
         <mesh ref={ref} rotation-x={-Math.PI / 2} position={position}>

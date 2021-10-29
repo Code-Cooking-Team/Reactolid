@@ -6,6 +6,7 @@ import { Box } from '../components/dev/Box'
 import { Ground3DTest } from '../components/ground/Ground3DTest'
 import { GroundPlane } from '../components/ground/GroundPlane'
 import { Player } from '../components/player/Player'
+import { Stairs } from '../components/stairs/Stairs'
 
 export const Game = () => {
     const pointLightRef = useRef()
@@ -23,8 +24,8 @@ export const Game = () => {
                     intensity={1}
                 />
 
-                <Box position={[-1.2, 1, 0]} />
-                <Box position={[1.2, 1, 0]} />
+                <Box position={[-1.2, 10, 0]} />
+                <Box position={[1.2, 10, 0]} />
 
                 <Box position={[2, 0, 4]} stationary />
 
@@ -32,7 +33,9 @@ export const Game = () => {
 
                 <GroundPlane position={[0, -1, 0]} />
 
-                <Ground3DTest />
+                {Array.from(Array(10).keys()).map((z) => (
+                    <Stairs key={z} position={[0, 0, z * 5]} />
+                ))}
             </Debug>
         </Physics>
     )
