@@ -1,9 +1,10 @@
 import { Triplet, useCompoundBody } from '@react-three/cannon'
 import { useGLTF } from '@react-three/drei'
 import React from 'react'
-import { Mesh } from 'three'
+import { BufferGeometry, Mesh, ParametricGeometry, Vector3 } from 'three'
 import type { GLTF } from 'three-stdlib'
-import stairs from './assets/stairs.gltf?url'
+import { Geometry } from '../../lib/Geometry'
+import stairs from './assets/new.gltf?url'
 
 interface StairsProps {
     position: Triplet
@@ -13,7 +14,7 @@ export const Stairs = ({ position }: StairsProps) => {
     const stairsModel = useGLTF(stairs)
 
     const meshes = findMeshes(stairsModel)
-    const empties = findEmpties(stairsModel)
+    const physicsShapes = findPhysics(stairsModel)
 
     const [ref, api] = useCompoundBody(() => ({
         type: 'Static',
@@ -21,12 +22,21 @@ export const Stairs = ({ position }: StairsProps) => {
         material: {
             friction: 10,
         },
-        shapes: empties.map((box) => ({
-            type: 'Box',
-            position: box.position.toArray(),
-            rotation: box.rotation.toArray(),
-            args: box.scale.toArray().map((v) => Math.abs(v * 2)),
-        })),
+        shapes: physicsShapes.map((shape) => {
+            const obj = new Geometry().fromBufferGeometry(shape.geometry)
+
+            obj.mergeVertices()
+
+            return {
+                type: 'ConvexPolyhedron',
+                position: shape.position.toArray(),
+                rotation: shape.rotation.toArray(),
+                args: [
+                    obj.vertices.map((v) => v.toArray()),
+                    obj.faces.map((v) => v.toArray()),
+                ],
+            }
+        }),
     }))
 
     return (
@@ -39,7 +49,7 @@ export const Stairs = ({ position }: StairsProps) => {
                     scale={mesh.scale}
                     position={mesh.position}
                 >
-                    <meshStandardMaterial color="darkgreen" />
+                    <meshStandardMaterial color="gray" />
                 </mesh>
             ))}
         </group>
@@ -49,5 +59,8 @@ export const Stairs = ({ position }: StairsProps) => {
 const findMeshes = (gltf: GLTF) =>
     gltf.scene.children.filter((item) => item.type === 'Mesh') as Mesh[]
 
-const findEmpties = (gltf: GLTF) =>
-    gltf.scene.children.filter((item) => item.name.startsWith('Empty'))
+const findPhysics = (gltf: GLTF) => {
+    const physicsMeshes = gltf.scene.children.flatMap((obj) => obj.children)
+
+    return physicsMeshes as Mesh[]
+}

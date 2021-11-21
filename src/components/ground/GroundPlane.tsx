@@ -9,6 +9,9 @@ export const GroundPlane = ({ position }: GroundPlaneProps) => {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         position,
+        material: {
+            friction: 0.4,
+        },
     }))
 
     return (

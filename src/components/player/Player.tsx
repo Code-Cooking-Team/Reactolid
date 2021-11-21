@@ -1,4 +1,4 @@
-import { Triplet, useCompoundBody, useSphere } from '@react-three/cannon'
+import { Triplet, useCompoundBody } from '@react-three/cannon'
 import React from 'react'
 import { usePlayerCamera } from './usePlayerCamera'
 import { usePlayerControls } from './usePlayerControls'
@@ -7,17 +7,16 @@ interface PlayerProps {
     position: Triplet
 }
 
-export const Player = ({ position }: PlayerProps) => {
-    const size = 0.5
+const size = 0.5
 
+export const Player = ({ position }: PlayerProps) => {
     const [ref, api] = useCompoundBody(() => ({
         mass: 1,
         fixedRotation: true,
         type: 'Dynamic',
         position,
         material: {
-            friction: 0.01,
-            restitution: 1000,
+            friction: 0.15,
         },
         shapes: [
             {

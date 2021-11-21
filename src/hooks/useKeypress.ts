@@ -5,13 +5,13 @@ export const useKeyPress = (targetKey: string) => {
 
     useEffect(() => {
         const downHandler = ({ key }: KeyboardEvent) => {
-            if (key === targetKey) {
+            if (key.toLocaleLowerCase() === targetKey) {
                 setKeyPressed(true)
             }
         }
 
         const upHandler = ({ key }: KeyboardEvent) => {
-            if (key === targetKey) {
+            if (key.toLocaleLowerCase() === targetKey) {
                 setKeyPressed(false)
             }
         }

@@ -12,7 +12,7 @@ export const usePlayerCamera = (api: Api[1]) => {
         const [posX, posY, posZ] = positionRef.current
 
         camera.position.x += (posX - camera.position.x) / CAMERA_SMOOTHNESS
-        camera.position.z += (posZ - camera.position.z + 10) / CAMERA_SMOOTHNESS
+        camera.position.z += (posZ - camera.position.z + 5) / CAMERA_SMOOTHNESS
 
         camera.lookAt(new Vector3(posX, posY, posZ))
     })

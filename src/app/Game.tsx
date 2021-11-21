@@ -33,9 +33,10 @@ export const Game = () => {
 
                 <GroundPlane position={[0, -1, 0]} />
 
-                {Array.from(Array(10).keys()).map((z) => (
+                <Stairs position={[0, 0, 5]} />
+                {/* {Array.from(Array(10).keys()).map((z) => (
                     <Stairs key={z} position={[0, 0, z * 5]} />
-                ))}
+                ))} */}
             </Debug>
         </Physics>
     )

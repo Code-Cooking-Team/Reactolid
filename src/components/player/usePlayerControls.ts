@@ -1,13 +1,13 @@
-import { Api } from '@react-three/cannon'
+import { Api, Triplet } from '@react-three/cannon'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
 import { useKeyPress } from '../../hooks/useKeypress'
 import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
-const CAMERA_SMOOTHNESS = 15
-const MOVEMENT_SPEED = 10
-const JUMP_FORCE = 4
+const V_ZERO = new Vector3(0, 0, 0)
+const MOVEMENT_SPEED = 1
+const JUMP_FORCE = 0.5
 
 export const usePlayerControls = (api: Api[1]) => {
     const wKey = useKeyPress('w')
@@ -26,15 +26,17 @@ export const usePlayerControls = (api: Api[1]) => {
 
         direction
             .subVectors(frontVector, sideVector)
-            .normalize()
+            // .normalize() // TODO?
             .multiplyScalar(MOVEMENT_SPEED)
 
-        const [velX, velY, velZ] = velocityRef.current
+        const [velX, velZ, velY] = velocityRef.current
 
-        api.velocity.set(direction.x, velY, direction.z)
+        const mv = new Vector3(direction.x, spaceKey ? JUMP_FORCE : 0, direction.z)
 
-        if (spaceKey) {
-            api.velocity.set(velX, JUMP_FORCE, velZ)
+        const maxVel = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2))
+
+        if (maxVel < 5 && !mv.equals(V_ZERO)) {
+            api.applyImpulse(mv.toArray(), [0, 0, 0])
         }
     })
 }
