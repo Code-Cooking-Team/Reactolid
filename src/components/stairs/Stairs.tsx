@@ -1,9 +1,13 @@
-import { Triplet, useCompoundBody } from '@react-three/cannon'
+import { useCompoundBody } from '@react-three/cannon'
 import { useGLTF } from '@react-three/drei'
 import React from 'react'
-import { BufferGeometry, Mesh, ParametricGeometry, Vector3 } from 'three'
+import { Mesh } from 'three'
 import type { GLTF } from 'three-stdlib'
-import { Geometry } from '../../lib/Geometry'
+import {
+    getFacesFromBufferGeometry,
+    getVerticesFromBufferGeometry,
+} from '../../lib/Geometry'
+import { Triplet } from '../../types/3D'
 import stairs from './assets/new.gltf?url'
 
 interface StairsProps {
@@ -23,17 +27,13 @@ export const Stairs = ({ position }: StairsProps) => {
             friction: 10,
         },
         shapes: physicsShapes.map((shape) => {
-            const obj = new Geometry().fromBufferGeometry(shape.geometry)
-
-            obj.mergeVertices()
-
             return {
                 type: 'ConvexPolyhedron',
                 position: shape.position.toArray(),
                 rotation: shape.rotation.toArray(),
                 args: [
-                    obj.vertices.map((v) => v.toArray()),
-                    obj.faces.map((v) => v.toArray()),
+                    getVerticesFromBufferGeometry(shape.geometry),
+                    getFacesFromBufferGeometry(shape.geometry),
                 ],
             }
         }),
@@ -56,11 +56,11 @@ export const Stairs = ({ position }: StairsProps) => {
     )
 }
 
-const findMeshes = (gltf: GLTF) =>
-    gltf.scene.children.filter((item) => item.type === 'Mesh') as Mesh[]
+const findMeshes = (gltf: GLTF) => {
+    return gltf.scene.children.filter((item) => item.type === 'Mesh') as Mesh[]
+}
 
 const findPhysics = (gltf: GLTF) => {
-    const physicsMeshes = gltf.scene.children.flatMap((obj) => obj.children)
-
-    return physicsMeshes as Mesh[]
+    // Physics shapes are inside the visual mash
+    return gltf.scene.children.flatMap((obj) => obj.children) as Mesh[]
 }

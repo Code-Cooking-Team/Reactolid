@@ -1,6 +1,5 @@
-import { Api, Triplet } from '@react-three/cannon'
+import { Api } from '@react-three/cannon'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
 import { Vector3 } from 'three'
 import { useKeyPress } from '../../hooks/useKeypress'
 import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
