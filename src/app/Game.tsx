@@ -29,7 +29,7 @@ export const Game = () => {
 
                 <Box position={[2, 0, 4]} stationary />
 
-                <Player position={[0, 5, 2]} />
+                <Player position={[0, 5, 4]} />
 
                 <GroundPlane position={[0, -1, 0]} />
 
