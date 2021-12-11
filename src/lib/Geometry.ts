@@ -1,5 +1,5 @@
+import { Triplet } from '+types/3D'
 import { BufferGeometry, Vector3 } from 'three'
-import { Triplet } from '../types/3D'
 
 /* Two functions extracted from old ThreeJS Geometry class */
 

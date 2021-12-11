@@ -1,3 +1,4 @@
+import { findPhysics } from '+lib/GLTF'
 import { BodyProps, useCompoundBody } from '@react-three/cannon'
 import { useMemo } from 'react'
 import { Mesh } from 'three'
@@ -28,9 +29,4 @@ export const useMeshBody = ({ gltf, ...rest }: Options) => {
             }
         }),
     }))
-}
-
-const findPhysics = (gltf: GLTF) => {
-    // Physics shapes are inside the visual mash
-    return gltf.scene.children.flatMap((obj) => obj.children) as Mesh[]
 }
