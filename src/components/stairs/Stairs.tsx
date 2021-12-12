@@ -1,9 +1,8 @@
 import { useMeshBody } from '+hooks/useMeshBody'
+import { findMeshes } from '+lib/GLTF'
 import { Triplet } from '+types/3D'
 import { useGLTF } from '@react-three/drei'
 import React from 'react'
-import { Mesh } from 'three'
-import type { GLTF } from 'three-stdlib'
 import stairs from './assets/new.gltf?url'
 
 interface StairsProps {
