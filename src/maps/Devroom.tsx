@@ -2,13 +2,13 @@ import { useMeshBody } from '+hooks/useMeshBody'
 import { findMeshes } from '+lib/GLTF'
 import { useGLTF } from '@react-three/drei'
 import React, { useMemo } from 'react'
-import gltfUrl from './devroom.gltf?url'
+import gltfUrl from './test.gltf?url'
 
 export function Devroom({ ...props }: JSX.IntrinsicElements['group']) {
     const gltf = useGLTF(gltfUrl)
     const meshes = useMemo(() => findMeshes(gltf), [gltf])
 
-    const [ref] = useMeshBody({ gltf })
+    const [ref] = useMeshBody({ gltf, material: { friction: 0.5 } })
 
     return (
         <group ref={ref}>

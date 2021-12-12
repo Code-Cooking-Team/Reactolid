@@ -27,13 +27,15 @@ export const Game = () => {
                     intensity={1}
                 />
 
-                <Rock position={[0, 0, 0]} />
+                {/* <Rock position={[0, 10, 0]} /> */}
 
                 <Devroom />
 
-                {/* <Player position={[0, 5, 4]} /> */}
+                <Player position={[0, 10, 4]} />
 
-                <Box position={[-1.2, 10, 0]} />
+                <Box position={[-1.2, 10, -30]} />
+                <Box position={[-1.2, 10, -20]} />
+                <Box position={[-1.2, 10, -10]} />
                 <Box position={[1.2, 10, 0]} />
 
                 <Box position={[2, 0, 4]} stationary />

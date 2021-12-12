@@ -22,7 +22,7 @@ export function Rock({ ...props }: JSX.IntrinsicElements['group']) {
     const gltf = useGLTF(gltfUrl) as GLTFResult
     const { nodes, materials } = gltf
 
-    const [ref] = useMeshBody({ gltf, type: 'Static' })
+    const [ref] = useMeshBody({ gltf, type: 'Dynamic' })
 
     return (
         <group ref={ref} {...props} dispose={null}>
