@@ -39,7 +39,3 @@ export const Stairs = ({ position }: StairsProps) => {
         </group>
     )
 }
-
-const findMeshes = (gltf: GLTF) => {
-    return gltf.scene.children.filter((item) => item.type === 'Mesh') as Mesh[]
-}

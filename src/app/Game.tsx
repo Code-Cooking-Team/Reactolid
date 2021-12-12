@@ -1,3 +1,4 @@
+import { Something } from '+components/dev/Something'
 import { GroundPlane } from '+components/ground/GroundPlane'
 import { Player } from '+components/player/Player'
 import { Rock } from '+components/rocks/Rock'
@@ -45,9 +46,9 @@ export const Game = () => {
                 <GroundPlane position={[0, -1, 0]} />
 
                 <Stairs position={[0, 0, 5]} /> */}
-                {/* {Array.from(Array(10).keys()).map((z) => (
-                    <Stairs key={z} position={[0, 0, z * 5]} />
-                ))} */}
+                {Array.from(Array(20).keys()).map((z) => (
+                    <Something position={[0, z * 8 + 5, 0]} key={z} />
+                ))}
             </Debug>
         </Physics>
     )
