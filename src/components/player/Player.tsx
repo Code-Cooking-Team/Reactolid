@@ -1,5 +1,8 @@
 import { Triplet, useCompoundBody } from '@react-three/cannon'
-import React from 'react'
+import { Line } from '@react-three/drei'
+import { extend } from '@react-three/fiber'
+import React, { useMemo } from 'react'
+import { BufferGeometry, Vector3 } from 'three'
 import { usePlayerCamera } from './usePlayerCamera'
 import { usePlayerControls } from './usePlayerControls'
 
@@ -34,19 +37,22 @@ export const Player = ({ position }: PlayerProps) => {
         ],
     }))
 
-    usePlayerControls(api)
+    const { fromRey, toRey } = usePlayerControls(api)
     usePlayerCamera(api)
 
     return (
-        <mesh ref={ref} castShadow>
-            <sphereGeometry attach="geometry" args={[size, 16, 16]} />
-            <meshStandardMaterial
-                attach="material"
-                color="gray"
-                transparent
-                roughness={0.1}
-                metalness={0.1}
-            />
-        </mesh>
+        <>
+            <Line points={[fromRey, toRey]} color="red" />
+            <mesh ref={ref} castShadow>
+                <sphereGeometry attach="geometry" args={[size, 16, 16]} />
+                <meshStandardMaterial
+                    attach="material"
+                    color="gray"
+                    transparent
+                    roughness={0.1}
+                    metalness={0.1}
+                />
+            </mesh>
+        </>
     )
 }

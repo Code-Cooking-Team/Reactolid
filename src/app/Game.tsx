@@ -30,7 +30,7 @@ export const Game = () => {
 
                 {/* <Rock position={[0, 10, 0]} /> */}
 
-                <Devroom />
+                {/* <Devroom /> */}
 
                 <Player position={[0, 10, 4]} />
 
@@ -41,14 +41,12 @@ export const Game = () => {
 
                 <Box position={[2, 0, 4]} stationary />
 
-                {/*
-
                 <GroundPlane position={[0, -1, 0]} />
 
-                <Stairs position={[0, 0, 5]} /> */}
-                {Array.from(Array(20).keys()).map((z) => (
+                {/* <Stairs position={[0, 0, 5]} /> */}
+                {/* {Array.from(Array(10).keys()).map((z) => (
                     <Something position={[0, z * 8 + 5, 0]} key={z} />
-                ))}
+                ))} */}
             </Debug>
         </Physics>
     )

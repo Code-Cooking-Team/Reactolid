@@ -1,12 +1,15 @@
-import { Api } from '@react-three/cannon'
+import { Triplet } from '+types/3D'
+import { Api, context } from '@react-three/cannon'
 import { useFrame } from '@react-three/fiber'
-import { Vector3 } from 'three'
+import { useContext } from 'react'
+import { MathUtils, Vector3 } from 'three'
 import { useKeyPress } from '../../hooks/useKeypress'
 import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
 const V_ZERO = new Vector3(0, 0, 0)
-const MOVEMENT_SPEED = 0.5
-const JUMP_FORCE = 0.5
+const MOVEMENT_SPEED = 0.8
+const AIR_MOVEMENT_SPEED = 0.2
+const JUMP_FORCE = 5
 
 export const usePlayerControls = (api: Api[1]) => {
     const wKey = useKeyPress('w')
@@ -16,8 +19,45 @@ export const usePlayerControls = (api: Api[1]) => {
     const spaceKey = useKeyPress(' ')
 
     const velocityRef = useSubscribePhysicValue(api.velocity)
+    const positionRef = useSubscribePhysicValue(api.position)
 
-    useFrame(() => {
+    const getRay = () => {
+        const [x, y, z] = positionRef.current
+
+        // TODO
+        const fromRey: Triplet = [x + 1, y - 0, z]
+        const toRey: Triplet = [x + 1, y - 0.6, z]
+
+        return { fromRey, toRey }
+    }
+
+    const { worker, events } = useContext(context)
+
+    const raycast = () => {
+        const { fromRey, toRey } = getRay()
+
+        return new Promise((resolve) => {
+            const uuid = MathUtils.generateUUID()
+
+            events[uuid] = {
+                rayhit: (response) => {
+                    resolve(response.hasHit)
+                    worker.postMessage({ op: 'removeRay', uuid })
+                    delete events[uuid]
+                },
+            }
+
+            worker.postMessage({
+                op: 'addRay',
+                uuid,
+                props: { mode: 'Closest', from: fromRey, to: toRey },
+            })
+        })
+    }
+
+    useFrame(async () => {
+        const inAir = !(await raycast())
+
         const direction = new Vector3()
 
         const frontVector = new Vector3(0, 0, Number(sKey) - Number(wKey))
@@ -26,16 +66,23 @@ export const usePlayerControls = (api: Api[1]) => {
         direction
             .subVectors(frontVector, sideVector)
             // .normalize() // TODO?
-            .multiplyScalar(MOVEMENT_SPEED)
+            .multiplyScalar(inAir ? AIR_MOVEMENT_SPEED : MOVEMENT_SPEED)
 
-        const [velX, velZ, velY] = velocityRef.current
+        const [velX, velY, velZ] = velocityRef.current
 
-        const mv = new Vector3(direction.x, spaceKey ? JUMP_FORCE : 0, direction.z)
+        const jump = spaceKey && !inAir ? JUMP_FORCE : 0
 
-        const maxVel = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2))
+        const mv = new Vector3(direction.x, direction.y + jump, direction.z)
 
-        // if (maxVel < 5 && !mv.equals(V_ZERO)) {
-            api.applyImpulse(mv.toArray(), [0, 0, 0])
-        // }
+        const currVec = new Vector3(velX, velY, velZ)
+        const moveVec = new Vector3().addVectors(mv, currVec)
+
+        // const maxVel = Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2))
+        // maxVel < 5 &&
+        if (!mv.equals(V_ZERO)) {
+            api.velocity.copy(moveVec)
+        }
     })
+
+    return getRay()
 }
