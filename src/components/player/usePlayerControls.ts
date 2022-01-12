@@ -7,9 +7,11 @@ import { useKeyPress } from '../../hooks/useKeypress'
 import { useSubscribePhysicValue } from '../../hooks/useSubscribePhysicValue'
 
 const V_ZERO = new Vector3(0, 0, 0)
-const MOVEMENT_SPEED = 0.8
-const AIR_MOVEMENT_SPEED = 0.2
-const JUMP_FORCE = 5
+
+const M = 100
+const MOVEMENT_SPEED = 0.8 * M
+const AIR_MOVEMENT_SPEED = 0.2 * M
+const JUMP_FORCE = 5 * M
 
 export const usePlayerControls = (api: Api[1]) => {
     const wKey = useKeyPress('w')
@@ -55,8 +57,12 @@ export const usePlayerControls = (api: Api[1]) => {
         })
     }
 
-    useFrame(async () => {
+    useFrame(async (_, delta) => {
         const inAir = !(await raycast())
+
+        const jumpForce = JUMP_FORCE * delta
+        const airMovementSpeed = AIR_MOVEMENT_SPEED * delta
+        const movementSpeed = MOVEMENT_SPEED * delta
 
         const direction = new Vector3()
 
@@ -66,13 +72,13 @@ export const usePlayerControls = (api: Api[1]) => {
         direction
             .subVectors(frontVector, sideVector)
             // .normalize() // TODO?
-            .multiplyScalar(inAir ? AIR_MOVEMENT_SPEED : MOVEMENT_SPEED)
+            .multiplyScalar(inAir ? airMovementSpeed : movementSpeed)
 
         const [velX, velY, velZ] = velocityRef.current
 
-        const jump = spaceKey && !inAir ? JUMP_FORCE : 0
+        const jumpY = spaceKey && !inAir ? jumpForce : 0
 
-        const mv = new Vector3(direction.x, direction.y + jump, direction.z)
+        const mv = new Vector3(direction.x, direction.y + jumpY, direction.z)
 
         const currVec = new Vector3(velX, velY, velZ)
         const moveVec = new Vector3().addVectors(mv, currVec)
